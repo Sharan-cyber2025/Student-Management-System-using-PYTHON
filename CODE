@@ -1,0 +1,47 @@
+import csv
+import os
+fl = "students.csv"
+if not os.path.exists(fl):
+    with open(fl, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Name", "Marks", "Roll Number"])
+while True:
+    print("\n1. Add Student\n2. Search Student\n3. Delete Student\n4. Exit")
+    ch = input("Enter choice: ")
+    if ch == "1":
+        n = input("Enter name: ")
+        m = input("Enter marks: ")
+        r = input("Enter roll number: ")
+        with open(fl, "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([n, m, r])
+        print("Student added successfully")
+    elif ch== "2":
+        r= input("Enter roll number: ")
+        found = False
+        with open(fl, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row["Roll Number"] == r:
+                    print(row)
+                    found = True
+        if not found:
+            print("Student not found")
+    elif ch== "3":
+        r= input("Enter roll number: ")
+        with open(f, "r") as f:
+            rows = list(csv.DictReader(f))
+        updated = [row for row in rows if row["Roll Number"] != r]
+        if len(updated) == len(rows):
+            print("Student not found")
+        else: 
+            with open(f, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=["Name", "Marks", "Roll Number"])
+                writer.writeheader()
+                writer.writerows(updated)
+            print("Student deleted successfully")
+    elif ch == "4":
+        print("Exiting Student Management System")
+        break
+    else:
+        print("Invalid choice")
